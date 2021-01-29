@@ -9,8 +9,8 @@ int lives = 8;
 std::vector<char> guessed;
 std::string word;
 
-void Clear();
-void RenderGame();
+void clear();
+void render_game();
 
 int main()
 {
@@ -18,12 +18,12 @@ int main()
 	std::cout << "Type your word: \n";
 	std::getline(std::cin, word);
 	std::cout << "Alright lets start the game\n" << word << "\n";
-	Clear();
-	RenderGame();
+	clear();
+	render_game();
 	while (lives > 0)
 	{
-		Clear();
-		RenderGame();
+		clear();
+		render_game();
 		char letter;
 		std::cout << "Guess a letter\n";
 		std::cin >> letter;
@@ -40,28 +40,34 @@ int main()
 	std::cout << "You lost!";
 }
 
-void RenderGame()
+void render_game()
 {
 	std::cout << "Lives: " << lives << "\n";
+	std::string result;
 	for (char i : word)
 	{
 		if (i == ' ')
 		{
-			std::cout << " ";
+			result += " ";
 		}
 		else if (std::count(guessed.begin(), guessed.end(), std::tolower(i)))
 		{
-			std::cout << i;
+			result += i;
 		}
 		else
 		{
-			std::cout << "_";
+			result += "_";
 		}
 	}
-	std::cout << "\n\n\n";
+	std::cout << result << "\n\n\n";
+	if (result.find('_') == std::string::npos)
+	{
+		std::cout << "YOU WON!";
+		std::exit(0);
+	}
 }
 
-void Clear()
+void clear()
 {
 #if defined _WIN32
 	system("cls");
